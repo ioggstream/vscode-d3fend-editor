@@ -3,7 +3,7 @@
 module.exports.activate = () => {
     const pluginKeyword = 'mermaid';
     const tokenTypeInline = 'inline';
-
+    const base64url = require('base64url');
     return {
         extendMarkdownIt(md) {
             md.use(require('markdown-it-container'), pluginKeyword, {
@@ -34,13 +34,33 @@ module.exports.activate = () => {
                 }
             });
 
+
             const highlight = md.options.highlight;
             md.options.highlight = (code, lang) => {
                 if (lang && lang.match(/\bmermaid\b/i)) {
-                    return `<div class="${pluginKeyword}">${preProcess(code)}</div>`;
+                    const img_url = () => {
+                        if (!lang.match(/img/))
+                            return ``;
+
+                        const img_data = base64url.encode(
+                                JSON.stringify({"code": code})
+                                )
+                        const img_url = `https://mermaid.ink/img/${img_data}`;
+                        return `
+                            <div>
+                            <a href="${img_url}" >Image URL</a>
+                            <blockquote>${img_url}</blockquote>
+                            </div>
+                            `
+                    }
+                    const ret = `${img_url(code, lang)}
+                            <div class="${pluginKeyword}">${preProcess(code)}</div>`;
+                    return ret;
                 }
-                return highlight(code, lang);
+                const hl= highlight(code, lang);
+                return hl;
             };
+            console.log(md);
             return md;
         }
     }
