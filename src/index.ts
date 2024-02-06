@@ -1,10 +1,42 @@
 import { extendMarkdownItWithMermaid } from './mermaid';
 import * as vscode from 'vscode';
-
+import { createD3fCompletion } from './d3fendCompletion';
 const configSection = 'markdown-mermaid';
 
 
 export function activate(ctx: vscode.ExtensionContext) {
+
+    const provider = vscode.languages.registerCompletionItemProvider(
+        'markdown',
+        {
+            provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
+                var textUntilPosition = document.getText(new vscode.Range(
+                    new vscode.Position(0, 0),
+                    position
+                ));
+                var match = textUntilPosition.match(
+                    /d3f:/
+                );
+                if (!match) {
+                    return new vscode.CompletionList();
+                }
+                var wordRange = document.getWordRangeAtPosition(position);
+                if (!wordRange) {
+                    return new vscode.CompletionList();
+                }
+                var range = {
+                    startLineNumber: position.line,
+                    endLineNumber: position.line,
+                    startColumn: wordRange.start.character,
+                    endColumn: wordRange.end.character,
+                };
+                return createD3fCompletion(new vscode.Range(position, position));
+            }
+        }
+    )
+
+    ctx.subscriptions.push(provider);
+
     ctx.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
         if (e.affectsConfiguration(configSection) || e.affectsConfiguration('workbench.colorTheme')) {
             vscode.commands.executeCommand('markdown.preview.refresh');

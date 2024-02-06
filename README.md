@@ -1,8 +1,8 @@
-# D3fend Markdown Preview Mermaid Support
+# D3fend Editor
 
-[![](https://vsmarketplacebadges.dev/version/ioggstream.d3fend-markdown-mermaid.png)](https://marketplace.visualstudio.com/items?itemName=ioggstream.d3fend-markdown-mermaid)
+[![](https://vsmarketplacebadges.dev/version/ioggstream.d3fend-editor.png)](https://marketplace.visualstudio.com/items?itemName=ioggstream.d3fend-editor)
 
-Adds D3fend rendering support to the Markdown preview for Mermaid diagrams https://github.com/mjbvz/vscode-markdown-mermaid.
+Adds D3fend editing support to the Markdown preview for Mermaid diagrams https://github.com/mjbvz/vscode-markdown-mermaid.
 
 D3fend entities are rendered as fontawesome or unicode icons according to the map defined in [this d3fend-mermaid datafile](https://github.com/ioggstream/d3fend-mermaid/blob/10.8.637/packages/mermaid/src/dagre-wrapper/d3fendData.js).
 
