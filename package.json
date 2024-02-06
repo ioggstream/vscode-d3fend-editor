@@ -1,23 +1,24 @@
 {
-  "name": "markdown-mermaid",
-  "version": "1.21.0",
-  "displayName": "Markdown Preview Mermaid Support",
-  "description": "Adds Mermaid diagram and flowchart support to VS Code's builtin markdown preview",
+  "name": "d3fend-markdown-mermaid",
+  "version": "1.21.637",
+  "displayName": "D3fend Markdown Preview Mermaid Support",
+  "description": "Adds D3fend icon rendering to the Matt Bierner's Markdown Preview Mermaid Support extension.",
   "icon": "docs/logo.png",
   "keywords": [
+    "security",
     "mermaid",
     "markdown",
     "flowchart",
     "diagram",
     "preview"
   ],
-  "publisher": "bierner",
+  "publisher": "ioggstream",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/mjbvz/vscode-markdown-mermaid.git"
+    "url": "https://github.com/ioggstream/vscode-markdown-mermaid.git"
   },
   "bugs": {
-    "url": "https://github.com/mjbvz/vscode-markdown-mermaid/issues"
+    "url": "https://github.com/ioggstream/vscode-markdown-mermaid/issues"
   },
   "engines": {
     "vscode": "^1.72.0"
@@ -34,7 +35,7 @@
     ],
     "notebookRenderer": [
       {
-        "id": "bierner.markdown-it.mermaid-extension",
+        "id": "ioggstream.markdown-it.mermaid-extension",
         "displayName": "Markdown it Mermaid renderer",
         "entrypoint": {
           "extends": "vscode.markdown-it-renderer",
@@ -93,7 +94,7 @@
     "@types/vscode-notebook-renderer": "^1.72.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.7.3",
-    "mermaid": "^10.6.1",
+    "mermaid": "npm:d3fend-mermaid@10.8.637",
     "mini-css-extract-plugin": "^2.2.2",
     "npm-run-all": "^4.1.5",
     "style-loader": "^3.2.1",

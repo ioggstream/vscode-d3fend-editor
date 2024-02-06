@@ -1,39 +1,35 @@
-# Markdown Preview Mermaid Support
+# D3fend Markdown Preview Mermaid Support
 
-[![](https://vsmarketplacebadges.dev/version/bierner.markdown-mermaid.png)](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
+[![](https://vsmarketplacebadges.dev/version/ioggstream.d3fend-markdown-mermaid.png)](https://marketplace.visualstudio.com/items?itemName=ioggstream.d3fend-markdown-mermaid)
 
-Adds [Mermaid](https://mermaid-js.github.io/mermaid/#/) diagram and flowchart support to VS Code's builtin Markdown preview and to Markdown cells in notebooks.
+Adds D3fend rendering support to the Markdown preview for Mermaid diagrams https://github.com/mjbvz/vscode-markdown-mermaid.
 
-![A mermaid diagram in VS Code's built-in markdown preview](https://github.com/mjbvz/vscode-markdown-mermaid/raw/master/docs/example.png)
+D3fend entities are rendered as fontawesome or unicode icons according to the map defined in [this d3fend-mermaid datafile](https://github.com/ioggstream/d3fend-mermaid/blob/10.8.637/packages/mermaid/src/dagre-wrapper/d3fendData.js).
 
-Currently supports Mermaid version 10.6.1.
+Icons contain a tooltip with the D3fend entity name
+and an hyperlink to the D3fend website.
+
+Currently supports Mermaid version 10.8.x.
 
 ## Usage
+
+For basic usage instructions, see the [markdown-mermaid](https://github.com/mjbvz/vscode-markdown-mermaid) extension.
 
 Create diagrams in markdown using `mermaid` fenced code blocks:
 
 ~~~markdown
 ```mermaid
 graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+
+    u((User d3f:User))
+    api[REST API d3f:WebServerApplication]
+    database[MySQL d3f:Database]
+    u -->|d3f:WebResourceAccess| --> api
+    api -->|d3f:writes| database
 ```
 ~~~
 
-You can also use `:::` blocks:
-
-```markdown
-::: mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-:::
-```
-
+Further examples are in [docs](./docs).
 
 ## Configuration
 
