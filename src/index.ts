@@ -1,10 +1,16 @@
 import { extendMarkdownItWithMermaid } from './mermaid';
 import * as vscode from 'vscode';
-
+import { provideCompletionItems } from './d3fendCompletion';
 const configSection = 'markdown-mermaid';
 
 
 export function activate(ctx: vscode.ExtensionContext) {
+
+    ctx.subscriptions.push(vscode.languages.registerCompletionItemProvider(
+        'markdown',
+        { provideCompletionItems }
+    ));
+
     ctx.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
         if (e.affectsConfiguration(configSection) || e.affectsConfiguration('workbench.colorTheme')) {
             vscode.commands.executeCommand('markdown.preview.refresh');
