@@ -10,27 +10,22 @@ export function activate(ctx: vscode.ExtensionContext) {
         'markdown',
         {
             provideCompletionItems(document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken, context: vscode.CompletionContext) {
-                var textUntilPosition = document.getText(new vscode.Range(
-                    new vscode.Position(0, 0),
-                    position
-                ));
+                const textUntilPosition = document.lineAt(position).text.slice(0, position.character);
                 var match = textUntilPosition.match(
                     /d3f:/
                 );
                 if (!match) {
-                    return new vscode.CompletionList();
+                    return undefined;
                 }
                 var wordRange = document.getWordRangeAtPosition(position);
                 if (!wordRange) {
-                    return new vscode.CompletionList();
+                    return undefined;
                 }
-                var range = {
-                    startLineNumber: position.line,
-                    endLineNumber: position.line,
-                    startColumn: wordRange.start.character,
-                    endColumn: wordRange.end.character,
-                };
-                return createD3fCompletion(new vscode.Range(position, position));
+                const p0 = new vscode.Position(position.line, wordRange.start.character);
+                const p1 = new vscode.Position(position.line, wordRange.end.character);
+                return createD3fCompletion(
+                    new vscode.Range(p0, p1)
+                )
             }
         }
     )
