@@ -5,8 +5,5 @@
     },
     "search.exclude": {
         "out": true // set this to false to include "out" folder in search results
-    },
-    "editor.tabCompletion": "on",
-    "emmet.triggerExpansionOnTab": true,
-    "cmake.configureOnOpen": false
+    }
 }
