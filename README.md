@@ -2,7 +2,7 @@
 
 [![](https://vsmarketplacebadges.dev/version/ioggstream.d3fend-editor.png)](https://marketplace.visualstudio.com/items?itemName=ioggstream.d3fend-editor)
 
-Adds D3FEND editing support to the Markdown preview for Mermaid diagrams https://github.com/mjbvz/vscode-markdown-mermaid.
+Adds D3FEND editing support to the Markdown preview for Mermaid diagrams <https://github.com/mjbvz/vscode-markdown-mermaid>.
 
 D3FEND entities are rendered as fontawesome or unicode icons according to the map defined in [this d3fend-mermaid datafile](https://github.com/ioggstream/d3fend-mermaid/blob/10.8.637/packages/mermaid/src/dagre-wrapper/d3fendData.js).
 
@@ -61,3 +61,26 @@ graph LR
     fa:fa-check-->fa:fa-coffee
 ```
 ~~~
+
+## Development
+
+The project forks and uses different libraries.
+
+```mermaid
+graph TB
+
+subgraph d3fend
+vscode-d3fend-mermaid[d3fend editor d3f:Software]
+d3fend-mermaid[d3fend-mermaid d3f:SoftwareLibrary]
+end
+
+subgraph vanilla
+mjbvz/vscode-markdown-mermaid[vscode-markdown-mermaid d3f:Software]
+mermaid[mermaid d3f:SoftwareLibrary]
+end
+d3fend-onto[(d3fend dataset\nd3f:Database)]
+
+vscode-d3fend-mermaid -->|forks| mjbvz/vscode-markdown-mermaid --> |d3f:uses| mermaid
+vscode-d3fend-mermaid -->|d3f:uses| d3fend-mermaid -->|forks| mermaid
+d3fend-mermaid -.-o|d3f:uses| d3fend-onto
+```
