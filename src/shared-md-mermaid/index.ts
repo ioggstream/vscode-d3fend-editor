@@ -161,17 +161,22 @@ function escapeRegExp(string: string): string {
 }
 
 function d3fend_parse(source: string): string {
-    const D3F_CONFIGS: Record<string, { shape: string, icon: string }> = {
+    const D3F_CONFIGS: Record<string, { shape: string, icon?: string }> = {
         'd3f:Process': { shape: 'rect', icon: 'mdi:cog-play-outline' },
-        'd3f:Database': { shape: 'cyl', icon: 'mdi:database' },
+        'd3f:Database': { shape: 'cyl', },
         'd3f:IPAddress': { shape: 'tri', icon: 'mdi:ip-network' },
-        'd3f:Volume': { shape: 'lin-cyl', icon: 'mdi:harddisk' },
+        'd3f:Volume': { shape: 'lin-cyl'},
+        'd3f:PrivilegedUserAccount': { shape: 'rect', icon: 'mdi:shield-account' },
+        'd3f:CodeRepository': { shape: 'cyl', icon: 'mdi:git' },
+        'd3f:Server': { shape: 'rect', icon: 'mdi:server' },
+        'd3f:User': { shape: 'rect', icon: 'mdi:account' },
+        'd3f:ContainerRegistry': { shape: 'cyl', icon: 'mdi:package' },
     };
 
     // Using named capture groups (ES2018+ required)
-    const regex = /^\s*(?<node>[a-zA-Z0-9-_]+)\["(?<desc>.*?)(?<icon>d3f:[\w-]+)(?<suffix>.*?)"\](?<eol>\s*)$/gm;
+    const regex = /^\s*(?<node>[a-zA-Z0-9-_]+)\["(?<desc>.*?)(?<icon>d3f:[\w-]+)(?<suffix>.*?)"\](?<class>:::[a-zA-Z]+)?(?<eol>\s*)$/gm;
     const dest = source.replace(regex, (...args) => {
-        const groups = args[args.length - 1] as { node: string, desc: string, icon: string, suffix: string, eol: string };
+        const groups = args[args.length - 1] as { node: string, desc: string, icon: string, class: string, suffix: string, eol: string };
         const config = D3F_CONFIGS[groups.icon] ?? { shape: 'rect', icon: '' };
         const items = [
             `shape: "${config.shape}"`
@@ -179,7 +184,7 @@ function d3fend_parse(source: string): string {
         if (config.icon) {
             items.push(`icon: "${config.icon}"`);
         }
-        return `${groups.node}["${groups.desc}${groups.icon}${groups.suffix}"]@{${items.join(',')}}${groups.eol}`;
+        return `${groups.node}["${groups.desc}${groups.icon}${groups.suffix}"]${groups?.class ?? ''}@{${items.join(',')}}${groups.eol}`;
     });
     return dest;
 }
