@@ -3,9 +3,6 @@ import zenuml from '@mermaid-js/mermaid-zenuml';
 import mermaid, { MermaidConfig } from 'mermaid';
 import { iconPackConfig, requireIconPack } from './iconPackConfig';
 
-import {D3FEND_DATA} from '../d3fendData';
-
-
 function renderMermaidElement(
     mermaidContainer: HTMLElement,
     writeOut: (mermaidContainer: HTMLElement, content: string) => void,
@@ -102,45 +99,3 @@ export function loadMermaidConfig(): MermaidConfig {
             : lightModeTheme ?? 'default') as MermaidConfig['theme'],
     };
 }
-
-function createTooltip(needle: string): string {
-   const icon = "";
-   const FOO = {
-    6: `https://next.d3fend.mitre.org/dao/artifact/`,
-    7: `https://next.d3fend.mitre.org/dao/technique/`,
-   }
-   const prefix = D3FEND_DATA[needle]?.prefix || '';
-   const url = prefix ? `https://next.d3fend.mitre.org/dao/artifact/${needle}/` : 'about:blank';
-
-   return `<a title='${needle}' href='${url}' target='_blank' rel='noopener noreferrer'>${icon}</a>`;
- }
-function replaceAfterPosition(
-    str: string, 
-    position: number, 
-    searchValue: string | RegExp, 
-    replaceValue: string
-): string {
-    let firstPart: string = str.substring(0, position);
-    let secondPart: string = str.substring(position);
-    secondPart = secondPart.replace(searchValue, replaceValue);
-    return firstPart + secondPart;
-}
-interface RenderD3fendIconsConfig {
-    text: string;
-}
-
-export const renderD3fendIcons = function (text: string): string {
-   let matches: string[] | null = text.match(/d3f:\w+/g);
-   console.log('renderD3fendIcons', text, matches);
-   let position: number = 0;
-   if (matches) {
-     matches.forEach((needle: string) => {
-       let replacement: string = createTooltip(needle);
-       text = replaceAfterPosition(text, position, needle, replacement);
-       position += replacement.length - needle.length;
-       console.log('found', needle, text);
-     });
-   }
-   console.log('new text', text);
-   return text;
-};
