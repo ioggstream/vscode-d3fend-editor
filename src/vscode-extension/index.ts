@@ -3,8 +3,14 @@ import * as vscode from 'vscode';
 import { extendMarkdownItWithMermaid } from '../shared-md-mermaid';
 import { configSection } from './config';
 import { injectMermaidTheme } from './themeing';
+import { provideCompletionItems } from '../d3fendCompletion';
 
 export function activate(ctx: vscode.ExtensionContext) {
+    ctx.subscriptions.push(vscode.languages.registerCompletionItemProvider(
+         'markdown',
+         { provideCompletionItems }
+     ));
+
     ctx.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
         if (e.affectsConfiguration(configSection) || e.affectsConfiguration('workbench.colorTheme')) {
             vscode.commands.executeCommand('markdown.preview.refresh');
