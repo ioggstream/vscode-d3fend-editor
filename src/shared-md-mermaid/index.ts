@@ -161,29 +161,23 @@ function escapeRegExp(string: string): string {
 }
 
 function d3fend_parse(source: string): string {
-    const SHAPES: Record<string, string> = {
-        'd3f:Process': 'rect',
-        'd3f:Database': 'cyl',
-        'd3f:IPAddress': 'tri',
-        'd3f:Volume': 'lin-cyl',
-    }
-    const ICONS: Record<string, string> = {
-        'd3f:Process': 'mdi:cog-play-outline',
-        'd3f:Database': 'mdi:database',
-        'd3f:IPAddress': 'mdi:ip-network',
-        'd3f:Volume': 'mdi:harddisk',
-    }
+    const D3F_CONFIGS: Record<string, { shape: string, icon: string }> = {
+        'd3f:Process': { shape: 'rect', icon: 'mdi:cog-play-outline' },
+        'd3f:Database': { shape: 'cyl', icon: 'mdi:database' },
+        'd3f:IPAddress': { shape: 'tri', icon: 'mdi:ip-network' },
+        'd3f:Volume': { shape: 'lin-cyl', icon: 'mdi:harddisk' },
+    };
 
     // Using named capture groups (ES2018+ required)
-    const regex = /(?<node>[a-zA-Z0-9-_]+)\["(?<desc>.*?)(?<icon>d3f:[\w-]+)(?<suffix>.*?)"\](?<eol>\s*)/g;
+    const regex = /^\s*(?<node>[a-zA-Z0-9-_]+)\["(?<desc>.*?)(?<icon>d3f:[\w-]+)(?<suffix>.*?)"\](?<eol>\s*)$/gm;
     const dest = source.replace(regex, (...args) => {
-        const groups = args[args.length - 1] as { node: string, desc: string, icon: string, suffix: string , eol: string };
-        // Use the groups as needed and build your replacement string dynamically
-        var items = [
-         `shape: "${SHAPES[groups.icon] ?? 'rect'}"`]
-         ;
-        if (ICONS[groups?.icon]) {
-            items.push(`icon: "${ICONS[groups.icon]}"`);
+        const groups = args[args.length - 1] as { node: string, desc: string, icon: string, suffix: string, eol: string };
+        const config = D3F_CONFIGS[groups.icon] ?? { shape: 'rect', icon: '' };
+        const items = [
+            `shape: "${config.shape}"`
+        ];
+        if (config.icon) {
+            items.push(`icon: "${config.icon}"`);
         }
         return `${groups.node}["${groups.desc}${groups.icon}${groups.suffix}"]@{${items.join(',')}}${groups.eol}`;
     });
