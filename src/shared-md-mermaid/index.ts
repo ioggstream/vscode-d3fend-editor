@@ -161,15 +161,31 @@ function escapeRegExp(string: string): string {
 }
 
 function d3fend_parse(source: string): string {
-    // Replace all lines matching the following pattern:
-    // aa-bb-cc["a fun description d3f:SomeText whatever"]
-    // with the following:
-    // aa-bb_cc["a fun description d3f:SomeText whatever"]@{icon: "d3f:SomeText"}
+    const SHAPES: Record<string, string> = {
+        'd3f:Process': 'rect',
+        'd3f:Database': 'cyl',
+        'd3f:IPAddress': 'tri',
+        'd3f:Volume': 'lin-cyl',
+    }
+    const ICONS: Record<string, string> = {
+        'd3f:Process': 'mdi:cog-play-outline',
+        'd3f:Database': 'mdi:database',
+        'd3f:IPAddress': 'mdi:ip-network',
+        'd3f:Volume': 'mdi:harddisk',
+    }
 
-    const regex = /([a-zA-Z0-9-_]+)\["(.*?)(d3f:[\w-]+)(.*?)"\]/g;
-    const replacement = '$1["$2$3$4"]@{icon: "$3"}';
-    const dest = source.replace(regex, replacement);
+    // Using named capture groups (ES2018+ required)
+    const regex = /(?<node>[a-zA-Z0-9-_]+)\["(?<desc>.*?)(?<icon>d3f:[\w-]+)(?<suffix>.*?)"\](?<eol>\s*)/g;
+    const dest = source.replace(regex, (...args) => {
+        const groups = args[args.length - 1] as { node: string, desc: string, icon: string, suffix: string , eol: string };
+        // Use the groups as needed and build your replacement string dynamically
+        var items = [
+         `shape: "${SHAPES[groups.icon] ?? 'rect'}"`]
+         ;
+        if (ICONS[groups?.icon]) {
+            items.push(`icon: "${ICONS[groups.icon]}"`);
+        }
+        return `${groups.node}["${groups.desc}${groups.icon}${groups.suffix}"]@{${items.join(',')}}${groups.eol}`;
+    });
     return dest;
-
-
 }
