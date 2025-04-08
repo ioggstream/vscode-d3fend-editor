@@ -148,14 +148,28 @@ export function extendMarkdownItWithMermaid(md: MarkdownIt, config: { languageId
 }
 
 function preProcess(source: string): string {
-    return source
+    return d3fend_parse(source
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/\n+$/, '')
-        .trimStart();
+        .trimStart());
 }
 
 function escapeRegExp(string: string): string {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function d3fend_parse(source: string): string {
+    // Replace all lines matching the following pattern:
+    // aa-bb-cc["a fun description d3f:SomeText whatever"]
+    // with the following:
+    // aa-bb_cc["a fun description d3f:SomeText whatever"]@{icon: "d3f:SomeText"}
+
+    const regex = /([a-zA-Z0-9-_]+)\["(.*?)(d3f:[\w-]+)(.*?)"\]/g;
+    const replacement = '$1["$2$3$4"]@{icon: "$3"}';
+    const dest = source.replace(regex, replacement);
+    return dest;
+
+
 }
