@@ -148,33 +148,91 @@ export function extendMarkdownItWithMermaid(md: MarkdownIt, config: { languageId
 }
 
 function preProcess(source: string): string {
-    return d3fend_parse(source
+
+    return d3fend_parse(
+        expand_percent(source)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/\n+$/, '')
-        .trimStart());
+        .trimStart()
+    );
 }
 
 function escapeRegExp(string: string): string {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function expand_percent(source: string): string {
+    const lines = source.split('\n');
+    let inSubgraph = false;
+    let subgraphId = '';
+    // Regex to detect a subgraph start, capturing its ID.
+    const subgraphRegex = /^(\s*)subgraph\s+(\S+)(\s*\[.*\])?\s*$/;
+    const processedLines = lines.map(line => {
+        if (!inSubgraph) {
+            const match = line.match(subgraphRegex);
+            if (match) {
+                // Entering a subgraph block.
+                inSubgraph = true;
+                subgraphId = match[2];
+            }
+            return line;
+        } else {
+            if (line.trim() === 'end') {
+                // Exiting subgraph block.
+                inSubgraph = false;
+                subgraphId = '';
+                return line;
+            } else {
+                // Always add two extra spaces indent.
+                const newIndent = '  ';
+                const newLine = newIndent + line;
+                const trimmed = newLine.trimStart();
+                // If the line is a comment (starts with "%% " or "%%\t"), return unmodified.
+                if (trimmed.startsWith("%% ") || trimmed.startsWith("%%\t")) {
+                    return newLine;
+                } else {
+                    // Globally replace any occurrence of one or more "%" that
+                    // are immediately followed by a dash (-) with the subgraph id.
+                    return newLine.replace(/%+(?=-)/g, subgraphId);
+                }
+            }
+        }
+    });
+    return processedLines.join('\n');
+}
+
 function d3fend_parse(source: string): string {
     const D3F_CONFIGS: Record<string, { shape: string, icon?: string }> = {
         'd3f:Process': { shape: 'rect', icon: 'mdi:cog-play-outline' },
-        'd3f:Database': { shape: 'cyl', },
         'd3f:IPAddress': { shape: 'tri', icon: 'mdi:ip-network' },
         'd3f:Volume': { shape: 'lin-cyl'},
         'd3f:PrivilegedUserAccount': { shape: 'rect', icon: 'mdi:shield-account' },
-        'd3f:CodeRepository': { shape: 'cyl', icon: 'mdi:git' },
-        'd3f:Server': { shape: 'rect', icon: 'mdi:server' },
         'd3f:User': { shape: 'rect', icon: 'mdi:account' },
         'd3f:ContainerRegistry': { shape: 'cyl', icon: 'mdi:package' },
+        'd3f:CodeRepository': { shape: 'cyl', icon: 'mdi:git' },
+        'd3f:ContainerImage': { shape: 'lin-cyl' },
+        'd3f:SoftwareArtifactServer': { shape: 'cyl' },
+        'd3f:Credential': { shape: 'notch-rect' },
+        'd3f:InternetNetworkTraffic': { shape: 'lin-rect' , icon: 'mdi:web' },
+        'd3f:Browser': { shape: 'circle', icon: 'mdi:firefox' },
+
+        // Resources
+        'd3f:ConfigurationResource': { shape: 'lin-doc' ,},
+        'd3f:ContainerOrchestrationSoftware': { shape: 'processes',  },
+
+        // Servers
+        'd3f:Server': { shape: 'rect', icon: 'mdi:server' },
+        'd3f:Database': { shape: 'cyl', },
+        'd3f:DNSServer': { shape: 'rect', icon: 'mdi:dns' },
+        'd3f:ReverseProxyServer': { shape: 'rect', icon: 'mdi:arrow-decision' },
+        'd3f:WebServerApplication': { shape: 'rect', icon: 'mdi:application-braces' },
+        'd3f:AuthenticationService': { shape: 'rect', icon: 'mdi:shield-key' },
     };
 
     // Using named capture groups (ES2018+ required)
-    const regex = /^\s*(?<node>[a-zA-Z0-9-_]+)\["(?<desc>.*?)(?<icon>d3f:[\w-]+)(?<suffix>.*?)"\](?<class>:::[a-zA-Z]+)?(?<eol>\s*)$/gm;
+    const regex = /^\s*(?<node>[a-zA-Z0-9-_.]+)\["(?<desc>.*?)(?<icon>d3f:[\w-]+)(?<suffix>.*?)"\](?<class>:::[a-zA-Z]+)?(?<eol>\s*)$/gm;
     const dest = source.replace(regex, (...args) => {
         const groups = args[args.length - 1] as { node: string, desc: string, icon: string, class: string, suffix: string, eol: string };
         const config = D3F_CONFIGS[groups.icon] ?? { shape: 'rect', icon: '' };
