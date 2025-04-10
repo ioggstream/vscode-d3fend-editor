@@ -151,11 +151,11 @@ function preProcess(source: string): string {
 
     return d3fend_parse(
         expand_percent(source)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\n+$/, '')
-        .trimStart()
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\n+$/, '')
+            .trimStart()
     );
 }
 
@@ -206,27 +206,44 @@ function expand_percent(source: string): string {
 function d3fend_parse(source: string): string {
     const D3F_CONFIGS: Record<string, { shape: string, icon?: string }> = {
         'd3f:Process': { shape: 'rect', icon: 'mdi:cog-play-outline' },
-        'd3f:IPAddress': { shape: 'tri', icon: 'mdi:ip-network' },
-        'd3f:Volume': { shape: 'lin-cyl'},
+        'd3f:Credential': { shape: 'notch-rect' },
+        'd3f:Browser': { shape: 'circle', icon: 'mdi:firefox' },
+
+        // Resources
+        'd3f:DigitalEventRecord': { shape: 'rounded' },
+
+        // Users
         'd3f:PrivilegedUserAccount': { shape: 'rect', icon: 'mdi:shield-account' },
         'd3f:User': { shape: 'rect', icon: 'mdi:account' },
+
+        // Network
+        'd3f:IPAddress': { shape: 'tri', icon: 'mdi:ip-network' },
+        'd3f:ReverseProxyServer': { shape: 'rect', icon: 'mdi:arrow-decision' },
+        'd3f:InternetNetworkTraffic': { shape: 'lin-rect', icon: 'mdi:web' },
+        'd3f:SSHSession': { shape: 'lin-rect', icon: 'mdi:ssh' },
+
+        // Storage
         'd3f:ContainerRegistry': { shape: 'cyl', icon: 'mdi:package' },
         'd3f:CodeRepository': { shape: 'cyl', icon: 'mdi:git' },
         'd3f:ContainerImage': { shape: 'lin-cyl' },
         'd3f:SoftwareArtifactServer': { shape: 'cyl' },
-        'd3f:Credential': { shape: 'notch-rect' },
-        'd3f:InternetNetworkTraffic': { shape: 'lin-rect' , icon: 'mdi:web' },
-        'd3f:Browser': { shape: 'circle', icon: 'mdi:firefox' },
+        'd3f:Volume': { shape: 'lin-cyl', /* shape: "mdi:cylinder" */ },
+        'd3f:NetworkFileShareResource': { shape: 'lin-cyl', icon: 'mdi:folder-network' },
+        'd3f:FileShareService': { shape: 'lin-cyl', icon: 'mdi:folder-network' },
+
 
         // Resources
-        'd3f:ConfigurationResource': { shape: 'lin-doc' ,},
-        'd3f:ContainerOrchestrationSoftware': { shape: 'processes',  },
+        'd3f:ConfigurationResource': { shape: 'lin-doc', },
+        'd3f:ContainerOrchestrationSoftware': { shape: 'processes', },
+        // Other
+        'd3f:SoftwareDeploymentTool': { shape: 'rect', icon: 'mdi:package-variant' },
 
+        // Techniques
+        'd3f:RestoreDatabase': { shape: 'lin-cyl', icon: 'mdi:database-refresh' },
         // Servers
         'd3f:Server': { shape: 'rect', icon: 'mdi:server' },
         'd3f:Database': { shape: 'cyl', },
         'd3f:DNSServer': { shape: 'rect', icon: 'mdi:dns' },
-        'd3f:ReverseProxyServer': { shape: 'rect', icon: 'mdi:arrow-decision' },
         'd3f:WebServerApplication': { shape: 'rect', icon: 'mdi:application-braces' },
         'd3f:AuthenticationService': { shape: 'rect', icon: 'mdi:shield-key' },
     };
