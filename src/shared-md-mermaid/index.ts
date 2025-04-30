@@ -1,4 +1,5 @@
 import type MarkdownIt from 'markdown-it';
+import { extendedSyntax } from './extendedSyntax';
 
 const mermaidLanguageId = 'mermaid';
 const containerTokenName = 'mermaidContainer';
@@ -148,14 +149,16 @@ export function extendMarkdownItWithMermaid(md: MarkdownIt, config: { languageId
 }
 
 function preProcess(source: string): string {
-    return source
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\n+$/, '')
-        .trimStart();
+
+    return extendedSyntax(source)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\n+$/, '')
+            .trimStart();
 }
 
 function escapeRegExp(string: string): string {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
