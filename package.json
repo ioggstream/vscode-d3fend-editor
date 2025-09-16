@@ -1,7 +1,7 @@
 {
-  "name": "markdown-mermaid",
-  "version": "1.27.0-d3fend",
-  "displayName": "Markdown Preview Mermaid Support",
+  "name": "markdown-mermaid-d3fend",
+  "version": "1.28.637",
+  "displayName": "Markdown Preview Mermaid with D3fend Support",
   "description": "Adds Mermaid diagram and flowchart support to VS Code's builtin markdown preview",
   "icon": "docs/logo.png",
   "keywords": [
@@ -11,13 +11,13 @@
     "diagram",
     "preview"
   ],
-  "publisher": "bierner",
+  "publisher": "ioggstream",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/mjbvz/vscode-markdown-mermaid.git"
+    "url": "https://github.com/ioggstream/vscode-d3fend-editor.git"
   },
   "bugs": {
-    "url": "https://github.com/mjbvz/vscode-markdown-mermaid/issues"
+    "url": "https://github.com/ioggstream/vscode-d3fend-editor/issues"
   },
   "engines": {
     "vscode": "^1.72.0"
