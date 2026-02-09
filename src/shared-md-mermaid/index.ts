@@ -1,4 +1,5 @@
 import type MarkdownIt from 'markdown-it';
+import { extendedSyntax } from './extendedSyntax';
 
 const mermaidLanguageId = 'mermaid';
 const containerTokenName = 'mermaidContainer';
@@ -140,7 +141,9 @@ export function extendMarkdownItWithMermaid(md: MarkdownIt, config: { languageId
     md.options.highlight = (code: string, lang: string, attrs: string) => {
         const reg = new RegExp('\\b(' + config.languageIds().map(escapeRegExp).join('|') + ')\\b', 'i');
         if (lang && reg.test(lang)) {
-            return `<pre class="${mermaidLanguageId}" style="all: unset;">${preProcess(code)}</pre>`;
+            const d3fend_mermaid = preProcess(code);
+            const showSource = code?.includes('%% showD3fendSource') ? 'block' : 'none';
+            return `<pre style="all:unset;"><div class="${mermaidLanguageId}">${d3fend_mermaid}</div></pre><pre style="display:${showSource};">${d3fend_mermaid}</pre>`;
         }
         return highlight?.(code, lang, attrs) ?? code;
     };
@@ -148,14 +151,16 @@ export function extendMarkdownItWithMermaid(md: MarkdownIt, config: { languageId
 }
 
 function preProcess(source: string): string {
-    return source
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\n+$/, '')
-        .trimStart();
+
+    return extendedSyntax(source)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\n+$/, '')
+            .trimStart();
 }
 
 function escapeRegExp(string: string): string {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+

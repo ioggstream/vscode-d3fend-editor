@@ -1,10 +1,11 @@
 {
-  "name": "markdown-mermaid",
-  "version": "1.31.1",
-  "displayName": "Markdown Preview Mermaid Support",
+  "name": "markdown-mermaid-d3fend",
+  "version": "1.31.637",
+  "displayName": "Markdown Preview Mermaid with D3fend Support",
   "description": "Adds Mermaid diagram and flowchart support to VS Code's builtin markdown preview",
   "icon": "docs/logo.png",
   "keywords": [
+    "d3fend",
     "mermaid",
     "markdown",
     "flowchart",
@@ -14,13 +15,13 @@
     "preview",
     "mermaidjs"
   ],
-  "publisher": "bierner",
+  "publisher": "ioggstream",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/mjbvz/vscode-markdown-mermaid.git"
+    "url": "https://github.com/ioggstream/vscode-d3fend-editor.git"
   },
   "bugs": {
-    "url": "https://github.com/mjbvz/vscode-markdown-mermaid/issues"
+    "url": "https://github.com/ioggstream/vscode-d3fend-editor/issues"
   },
   "engines": {
     "vscode": "^1.100.0"
@@ -133,7 +134,9 @@
     }
   },
   "dependencies": {
-    "@iconify-json/logos": "^1.2.0",
+    "@iconify-json/carbon": "^1.2.13",
+    "@iconify-json/logos": "^1.2.4",
+    "@iconify-json/material-symbols": "^1.2.20",
     "@iconify-json/mdi": "^1.2.0",
     "@mermaid-js/mermaid-zenuml": "^0.2.0"
   },
@@ -149,17 +152,17 @@
     "@vscode/codicons": "^0.0.44",
     "esbuild": "^0.25.0",
     "eslint": "^9.39.0",
-    "mermaid": "^11.12.2",
+    "mermaid": "npm:d3fend-mermaid@11.11.637",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.54.0"
   },
   "scripts": {
-    "build-webview": "node ./build/esbuild-webview.ts",
-    "watch-webview": "node ./build/esbuild-webview.ts --watch",
-    "compile-ext": "node ./build/esbuild-extension.ts",
-    "watch-ext": "node ./build/esbuild-extension.ts --watch",
-    "package-ext": "node ./build/esbuild-extension.ts --production",
+    "build-webview": "npx tsx ./build/esbuild-webview.ts",
+    "watch-webview": "npx tsx ./build/esbuild-webview.ts --watch",
+    "compile-ext": "npx tsx ./build/esbuild-extension.ts",
+    "watch-ext": "npx tsx ./build/esbuild-extension.ts --watch",
+    "package-ext": "npx tsx ./build/esbuild-extension.ts --production",
     "vscode:prepublish": "npm-run-all package-ext build-webview",
     "lint": "eslint src"
   }

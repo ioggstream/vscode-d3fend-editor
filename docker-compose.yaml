@@ -1,0 +1,19 @@
+# Start this docker compose file with:
+#
+# $ docker compose up test
+#
+# Start the dev env with:
+#
+# $ docker compose up -d dev
+#
+services:
+  dev:
+    image: docker.io/library/node:20.11.0-alpine3.19
+    volumes:
+      - ./:/code
+    command:
+    - infinity
+    entrypoint:
+    - sleep
+    - infinity
+

@@ -1,26 +1,32 @@
-# Markdown Preview Mermaid Support
+# D3FEND Editor
 
-[![](https://vsmarketplacebadges.dev/version/bierner.markdown-mermaid.png)](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
+[![](https://vsmarketplacebadges.dev/version/ioggstream.markdown-mermaid-d3fend.png)](https://marketplace.visualstudio.com/items?itemName=ioggstream.markdown-mermaid-d3fend)
 
-Adds [Mermaid](https://mermaid-js.github.io/mermaid/#/) diagram and flowchart support to VS Code's builtin Markdown preview and to Markdown cells in notebooks.
-
-![A mermaid diagram in VS Code's built-in markdown preview](https://github.com/mjbvz/vscode-markdown-mermaid/raw/master/docs/example.png)
+Extends [vscode-markdown-mermaid](https://github.com/mjbvz/vscode-markdown-mermaid)
+to simplify the creation of architectural diagrams
+labeled with d3fend artifacts.
 
 Currently supports Mermaid version 11.12.0.
 
 ## Usage
 
-Create diagrams in markdown using `mermaid` fenced code blocks:
+Extends Markdown Preview Mermaid with D3FEND support:
 
 ~~~markdown
 ```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+graph
+    
+    u[User d3f:User] -->|d3f:connects| webapp[d3f:WebApplicationServer]
+    
 ```
 ~~~
+
+```mermaid
+graph LR
+    
+    u[User d3f:User] -->|d3f:connects| webapp[d3f:WebApplicationServer]
+    
+```
 
 You can also use `:::` blocks:
 

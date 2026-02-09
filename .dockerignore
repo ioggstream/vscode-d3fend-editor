@@ -1,0 +1,4 @@
+*.vsix
+*.sh
+node_modules/
+dist*
