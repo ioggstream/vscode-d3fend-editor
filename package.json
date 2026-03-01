@@ -2,7 +2,7 @@
   "name": "markdown-mermaid-d3fend",
   "version": "1.31.637",
   "displayName": "Markdown Preview Mermaid with D3fend Support",
-  "description": "Adds Mermaid diagram and flowchart support to VS Code's builtin markdown preview",
+  "description": "Fork of Markdown Preview Mermaid adding D3FEND defensive framework annotations for security architecture diagrams",
   "icon": "docs/logo.png",
   "keywords": [
     "d3fend",

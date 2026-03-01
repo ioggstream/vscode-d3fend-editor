@@ -2,15 +2,39 @@
 
 [![](https://vsmarketplacebadges.dev/version/ioggstream.markdown-mermaid-d3fend.png)](https://marketplace.visualstudio.com/items?itemName=ioggstream.markdown-mermaid-d3fend)
 
-Extends [vscode-markdown-mermaid](https://github.com/mjbvz/vscode-markdown-mermaid)
-to simplify the creation of architectural diagrams
-labeled with d3fend artifacts.
+**Note:** This is a **community fork** of [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) that **adds D3FEND-specific features** for security architecture documentation.
 
-Currently supports Mermaid version 11.12.0.
+## What is D3FEND Editor?
+
+D3FEND Editor extends Mermaid diagram support in VS Code's markdown preview with specialized features for creating architectural diagrams annotated with [D3FEND](https://d3fend.mitre.org/) defensive framework artifacts.
+
+**Key Distinguishing Features:**
+
+- 🛡️ **D3FEND Artifact Labeling** — Annotate diagrams with MITRE D3FEND defensive categories and techniques
+- 🏗️ **Architecture Diagrams** — Create security architecture visualizations with D3FEND labels
+- 🔗 **Seamless Integration** — Works with Markdown Preview Mermaid's navigation and styling
+- 📊 **Full Mermaid Support** — All Mermaid diagram types plus D3FEND annotations
+- 🎨 **Icon Support and Anchors** — More icon support and anchor-like mechanism to reuse diagram parts
+
+Current Markdown Mermaid version: 1.31.
+Current Mermaid version: 11.11.637 (includes Mermaid 11.11.0 plus D3FEND-specific extensions).
+
+Supports the following iconsets:
+- [MDI](https://icon-sets.iconify.design/mdi/)
+- [Logos](https://icon-sets.iconify.design/logos/)
+
 
 ## Usage
 
-Extends Markdown Preview Mermaid with D3FEND support:
+D3FEND Editor extends Markdown Preview Mermaid with D3FEND support,
+allowing you to create diagrams annotated with D3FEND artifacts.
+From these diagrams, you can generate RDF graphs representing
+your architecture and its security properties.
+
+Configuration options are the same of Markdown Preview Mermaid,
+so you can check them on the [original website](https://github.com/mjbvz/vscode-markdown-mermaid).
+
+### Basic D3FEND Diagram
 
 ~~~markdown
 ```mermaid
@@ -28,18 +52,6 @@ graph LR
     
 ```
 
-You can also use `:::` blocks:
-
-```markdown
-::: mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-:::
-```
-
 Supports [MDI](https://icon-sets.iconify.design/mdi/) and [logos](https://icon-sets.iconify.design/logos/) icons from Iconify:
 
 ~~~markdown
@@ -52,116 +64,63 @@ architecture-beta
 ```
 ~~~
 
-
-## Navigating Diagrams
-
-Mermaid diagrams support panning and zooming to help explore large or complex diagrams. By default, navigation controls appear when you hover over or focus on a diagram. You can also navigate diagrams using the mouse:
-
-### Zooming
-To zoom in and out of diagrams:
-
-- **Zoom controls** — Use the `+` and `-` buttons that appear in the navigation controls
-- **Scroll wheel** — Hold <kbd>alt</kbd> (<kbd>option</kbd> on Mac) and scroll to zoom
-- **Pinch-to-zoom** — Use a trackpad pinch gesture
-- **Click zoom** — Alt+click to zoom in, Alt+Shift+click to zoom out
-
-To reset the zoom level and position, click the `reset` button in the controls.
-
-### Panning
-To pan around a diagram:
-
-- **Click and drag** — Hold <kbd>alt</kbd> (<kbd>option</kbd> on Mac) and click and drag to pan
-- **Pan mode** — Click the `pan mode` button in the navigation controls to enable click-and-drag panning without holding <kbd>alt</kbd>. Click it again to turn off `pan mode`.
-
-By default, click-and-drag panning requires holding the <kbd>alt</kbd> key to prevent accidental panning. Use `markdown-mermaid.mouseNavigation.enabled` to change this:
-
-- `always` — Click and drag always pans (no modifier key needed)
-- `alt` — Click and drag only pans when holding <kbd>alt</kbd> (default)
-- `never` — Disable mouse-based panning (controls and pinch-to-zoom still work)
-
-### Resizing
-Diagrams can be resized vertically by dragging the bottom edge. This is most useful if you use the `markdown-mermaid.maxHeight` setting or use css to limit the diagram's natural size.
-
-Use `markdown-mermaid.resizable` to disable this behavior, or `markdown-mermaid.maxHeight` to set a maximum height.
-
-
-## Configuration
-
-### `markdown-mermaid.lightModeTheme`
-Configures the Mermaid theme used when VS Code is using a light color theme. Supported values:
-
-- `base`
-- `forest`
-- `dark`
-- `default`
-- `neutral`
-
-Currently not supported in notebooks.
-
-### `markdown-mermaid.darkModeTheme`
-Configures the Mermaid theme used when VS Code is using a dark color theme. Supported values:
-
-- `base`
-- `forest`
-- `dark`
-- `default`
-- `neutral`
-
-Currently not supported in notebooks.
-
-### `markdown-mermaid.languages`
-Configures language ids used to identify Mermaid code blocks in markdown. The default is `["mermaid"]`.
-
-### `markdown-mermaid.mouseNavigation.enabled`
-Controls when mouse-based navigation (panning and zooming) is enabled. The default is `alt`. Supported values:
-
-- `always` — Always enable mouse navigation on mermaid diagrams
-- `alt` — Only enable mouse navigation when holding down <kbd>alt</kbd> (<kbd>option</kbd> on Mac)
-- `never` — Disable mouse navigation
-
-### `markdown-mermaid.controls.show`
-
-When to show navigation control buttons. The default is `onHoverOrFocus`. Supported values:
-
-- `never` — Never show navigation controls
-- `onHoverOrFocus` — Show navigation controls when hovering over or focusing on a diagram
-- `always` — Always show navigation controls
-
-### `markdown-mermaid.resizable`
-Allow diagrams to be resized vertically by dragging the bottom edge. The default is `true`.
-
-When enabled, you can drag the bottom edge of any diagram to adjust its height. The custom height is preserved as long as the diagram content doesn't change.
-
-### `markdown-mermaid.maxHeight`
-Maximum height for diagrams. Can be a number (pixels) or a CSS value like `80vh` or `400px`. Leave empty for no limit. The default is empty (no limit).
-
-Examples:
-- `400` — 400 pixels.
-- `80vh` — 80% of the viewport (markdown-preview) height.
-
-
-### `markdown-mermaid.maxTextSize`
-
-Maximum allowed size of diagram text. The default is `50000`.
-
-
-## Using custom CSS in the Markdown Preview
-
-You can use the built-in functionality to add custom CSS. More info can be found in the [markdown.styles documentation](https://code.visualstudio.com/Docs/languages/markdown#_using-your-own-css)
-
-For example, add Font Awesome like this:
-
-```json
-"markdown.styles": [
-    "https://use.fontawesome.com/releases/v5.7.1/css/all.css"
-]
-```
-
-Use it like this:
+Anchor-like mechanism to reuse diagram parts:
+prepend the `&` symbol to a subgraph to define it as an anchor, then prepend the `*` symbol to reuse it in another subgraph.
+The `%-` symbol will be replaced with the anchor content.
 
 ~~~markdown
 ```mermaid
+---
+title: Reusable diagram parts
+config:
+  layout: elk
+---
 graph LR
-    fa:fa-check-->fa:fa-coffee
+%% showD3fendSource is a special comment that shows the rendered mermaid source.
+  
+subgraph &a
+  %-proxy["Proxy d3f:ReverseProxyServer"]
+  %-app["App d3f:WebApplicationServer"]
+  %-proxy --> %-app
+end
+
+subgraph b
+  *a
+end
+
+u["d3f:Browser"]
+u -->|d3f:connects| a-proxy & b-proxy
 ```
 ~~~
+
+```mermaid
+---
+title: Reusable diagram parts
+config:
+  layout: elk
+---
+graph LR
+subgraph a
+a-proxy@{shape: "diamond",label: "Proxy mdi:proxy"}
+click a-proxy callback "d3f:ReverseProxyServer"
+
+a-app@{shape: "rect",label: "App d3f:WebApplicationServer"}
+click a-app callback "d3f:WebApplicationServer"
+
+    a-proxy --> a-app
+end
+
+subgraph b
+b-proxy@{shape: "diamond",label: "Proxy mdi:proxy"}
+click b-proxy callback "d3f:ReverseProxyServer"
+
+b-app@{shape: "rect",label: "App d3f:WebApplicationServer"}
+click b-app callback "d3f:WebApplicationServer"
+
+      b-proxy --> b-app
+end
+u@{shape: "circle",label: "d3f:Browser",icon: "logos:firefox"}
+click u callback "d3f:Browser"
+
+u -->|d3f:connects| a-proxy & b-proxy
+```

@@ -4,11 +4,11 @@
 ```mermaid
 graph
 
-subgraph &a_b
+subgraph &a_b ["Site A"]
 %-foo
 end
 
-subgraph b
+subgraph b ["Site B"]
 *a_b 
 end
 ```
