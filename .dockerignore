@@ -1,4 +1,12 @@
-*.vsix
-*.sh
-node_modules/
+out
+node_modules
+*.log
+.DS_Store
 dist*
+*.vsix
+.env
+.vscode
+Dockerfile
+.dockerignore
+.git
+.github

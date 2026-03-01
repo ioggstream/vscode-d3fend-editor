@@ -10,3 +10,7 @@ src/
 tsconfig*.json
 node_modules/**
 test-workspace/
+.github
+.git
+*docker*
+*.sh

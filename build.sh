@@ -6,3 +6,4 @@ docker build . -t vscode-markdown-mermaid
 docker create --name deleteme-vscode-markdown-mermaid vscode-markdown-mermaid 
 docker cp deleteme-vscode-markdown-mermaid:/app/${NAME}-${VERSION}.vsix .
 docker rm deleteme-vscode-markdown-mermaid
+zipinfo -1 ${NAME}-${VERSION}.vsix

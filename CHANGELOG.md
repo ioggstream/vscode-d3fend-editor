@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.31.637 - Mar 3, 2026
+- Add D3FEND-specific extensions to Mermaid 11.11.0, including support for D3FEND annotations in diagrams and RDF generation.
+
 ## 1.31.1 - Feb 2, 2026
 - Better try to preserve visible area when resizing after panning or zooming.
 - Allow zooming in further.
